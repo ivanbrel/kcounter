@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  kcounter-postgres-db:
+    container_name: kcounter-postgres
+    image: postgres
+    restart: always
+    ports:
+      - 54340:5432
+    environment:
+      DATABASEPASSWORD: postgres
+      POSTGRES_PASSWORD: postgres
