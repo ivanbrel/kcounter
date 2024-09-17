@@ -4,6 +4,8 @@ val postgres_version: String by project
 val h2_version: String by project
 val exposed_version: String by project
 val mockk_version: String = "1.13.12"
+val hikaricpVersion: String by project
+val koinKtor: String by project
 
 plugins {
     kotlin("jvm") version "2.0.0"
@@ -30,6 +32,9 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("org.postgresql:postgresql:$postgres_version")
+    implementation("com.zaxxer:HikariCP:$hikaricpVersion")
+    implementation("io.insert-koin:koin-ktor:$koinKtor")
+    implementation("io.ktor:ktor-server-status-pages")
     implementation("com.h2database:h2:$h2_version")
     implementation("io.ktor:ktor-server-webjars-jvm")
     implementation("org.webjars:jquery:3.2.1")

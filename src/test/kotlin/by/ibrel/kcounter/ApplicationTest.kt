@@ -3,7 +3,7 @@ package by.ibrel.kcounter
 import by.ibrel.kcounter.Counter
 import by.ibrel.kcounter.adapter.handler.rest.configureRouting
 import by.ibrel.kcounter.application.CounterApplication
-import by.ibrel.plugins.configureSerialization
+import by.ibrel.kcounter.config.configureSerialization
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.patch

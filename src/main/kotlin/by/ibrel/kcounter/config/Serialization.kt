@@ -1,4 +1,4 @@
-package by.ibrel.plugins
+package by.ibrel.kcounter.config
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

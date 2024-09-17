@@ -13,8 +13,9 @@ import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import org.koin.ktor.ext.get
 
-fun Application.configureRouting(counterApplication: CounterApplication) {
+fun Application.configureRouting(counterApplication: CounterApplication = get()) {
 
     routing {
 

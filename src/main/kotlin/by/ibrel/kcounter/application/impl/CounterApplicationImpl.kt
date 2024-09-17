@@ -3,11 +3,11 @@ package by.ibrel.kcounter.application.impl
 import by.ibrel.kcounter.Counter
 import by.ibrel.kcounter.Counters
 import by.ibrel.kcounter.application.CounterApplication
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.VarCharColumnType
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 class CounterApplicationImpl : CounterApplication {
 
@@ -32,13 +32,17 @@ class CounterApplicationImpl : CounterApplication {
 
     override suspend fun increment(name: String): Int =
         transaction {
-            Counters.update({ Counters.name eq name }) {
-                with(SqlExpressionBuilder) {
-                    it.update(count, count + 1)
-                }
+
+            val conn = TransactionManager.current().connection
+            val query = "update counters set count = count + 1 where name = ? RETURNING count"
+            val statement = conn.prepareStatement(query, false)
+            statement.fillParameters(listOf(Pair(VarCharColumnType(), name)))
+            val result = statement.executeQuery()
+
+            result.use {
+                if (result.next()) result.getInt(1)
+                else throw IllegalArgumentException("Counter with name $name not found.")
             }
-            commit()
-            Counter.find { Counters.name eq name }.single().count
         }
 
     override suspend fun getAll(): Map<String, Int> =
